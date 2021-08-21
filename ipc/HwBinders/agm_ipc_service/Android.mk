@@ -10,7 +10,6 @@ LOCAL_MULTILIB := 64
 endif
 
 LOCAL_CFLAGS        += -v -Wall
-LOCAL_C_INCLUDES    := $(TOP)/vendor/qcom/opensource/agm/ipc/HwBinders/agm_ipc_client/
 LOCAL_SRC_FILES     := src/agm_server_wrapper.cpp
 
 LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/inc
@@ -25,6 +24,8 @@ LOCAL_SHARED_LIBRARIES := \
     libar-gsl \
     vendor.qti.hardware.AGMIPC@1.0 \
     libagm
+
+LOCAL_HEADER_LIBRARIES := libagmclient_headers
 
 include $(BUILD_SHARED_LIBRARY)
 
@@ -41,7 +42,6 @@ LOCAL_VENDOR_MODULE        := true
 LOCAL_MODULE_RELATIVE_PATH := hw
 LOCAL_MODULE_OWNER         := qti
 
-LOCAL_C_INCLUDES           := $(TOP)/vendor/qcom/opensource/agm/ipc/HwBinders/agm_ipc_client/
 LOCAL_SRC_FILES            := src/service.cpp
 
 LOCAL_SHARED_LIBRARIES := \
@@ -57,6 +57,7 @@ LOCAL_SHARED_LIBRARIES := \
     libagm
 
 LOCAL_HEADER_LIBRARIES := libagm_headers
+LOCAL_HEADER_LIBRARIES := libagmclient_headers
 
 include $(BUILD_EXECUTABLE)
 endif
