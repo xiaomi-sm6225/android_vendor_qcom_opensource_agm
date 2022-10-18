@@ -29,6 +29,7 @@ LOCAL_SHARED_LIBRARIES := \
     libagm
 
 include $(BUILD_SHARED_LIBRARY)
+endif
 
 endif
 
