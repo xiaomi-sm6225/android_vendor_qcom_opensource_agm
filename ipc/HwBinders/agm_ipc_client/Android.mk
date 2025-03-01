@@ -1,5 +1,6 @@
 LOCAL_PATH := $(call my-dir)
 
+ifneq ($(QCPATH),)
 include $(CLEAR_VARS)
 LOCAL_MODULE := libagmclient
 LOCAL_MODULE_OWNER := qti
@@ -27,3 +28,5 @@ LOCAL_HEADER_LIBRARIES := libagm_headers
 LOCAL_CFLAGS += -Wno-format
 
 include $(BUILD_SHARED_LIBRARY)
+
+endif

@@ -44,6 +44,7 @@ endif
 include $(BUILD_SHARED_LIBRARY)
 
 # Build libagm_mixer_plugin
+ifneq ($(QCPATH),)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE        := libagm_mixer_plugin
@@ -83,6 +84,7 @@ LOCAL_HEADER_LIBRARIES += libaudiologutils_headers
 endif
 
 include $(BUILD_SHARED_LIBRARY)
+endif
 
 # Build libagm_compress_plugin
 include $(CLEAR_VARS)
