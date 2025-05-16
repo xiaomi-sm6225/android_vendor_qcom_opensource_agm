@@ -230,6 +230,7 @@ struct mixer_plugin_event_data {
 
 static enum agm_media_format alsa_to_agm_fmt(int fmt)
 {
+    AGM_LOGI("%s: Function agm_media_format/alsa_to_agm_fmt has been called");
     enum agm_media_format agm_pcm_fmt = AGM_FORMAT_INVALID;
 
     switch (fmt) {
@@ -256,6 +257,7 @@ static enum agm_media_format alsa_to_agm_fmt(int fmt)
 static struct amp_dev_info *amp_get_be_adi(struct amp_priv *amp_priv,
                 enum direction dir)
 {
+    AGM_LOGI("%s: Function agm_dev_info has been called");
     if (dir == RX)
         return &amp_priv->rx_be_devs;
     else if (dir == TX)
@@ -266,6 +268,7 @@ static struct amp_dev_info *amp_get_be_adi(struct amp_priv *amp_priv,
 
 static void amp_free_dev_info(struct amp_dev_info *adi)
 {
+    AGM_LOGI("%s: Function agm_free_dev_info has been called");
     if (adi->names) {
         free(adi->names);
         adi->names = NULL;
@@ -291,6 +294,7 @@ static void amp_free_dev_info(struct amp_dev_info *adi)
 
 static void amp_free_be_dev_info(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_free_be_dev_info has been called");
     amp_free_dev_info(&amp_priv->rx_be_devs);
     amp_free_dev_info(&amp_priv->tx_be_devs);
 
@@ -302,6 +306,7 @@ static void amp_free_be_dev_info(struct amp_priv *amp_priv)
 
 static void amp_free_group_be_dev_info(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_free_group_be_dev_info has been called");
     struct amp_be_group_info *grp_info = &amp_priv->group_be_devs;
     int i;
 
@@ -322,17 +327,20 @@ static void amp_free_group_be_dev_info(struct amp_priv *amp_priv)
 
 static void amp_free_acdb_dev_info(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_free_acdb_dev_info has been called");
     amp_free_dev_info(&amp_priv->acdb_tunnels);
 }
 
 static void amp_free_pcm_dev_info(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_free_pcm_dev_info has been called");
     amp_free_dev_info(&amp_priv->rx_pcm_devs);
     amp_free_dev_info(&amp_priv->tx_pcm_devs);
 }
 
 static void amp_free_ctls(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_free_ctls has been called");
     if (amp_priv->ctl_names) {
         free(amp_priv->ctl_names);
         amp_priv->ctl_names = NULL;
@@ -350,6 +358,7 @@ static void amp_add_event_params(struct amp_priv *amp_priv,
                                  uint32_t session_id,
                                  struct agm_event_cb_params *event_params)
 {
+    AGM_LOGI("%s: amp_add_event_params has been called");
     struct event_params_node *event_node;
     struct agm_event_cb_params *eparams;
     uint32_t len = event_params->event_payload_size;
@@ -371,6 +380,7 @@ static void amp_add_event_params(struct amp_priv *amp_priv,
 void amp_event_cb(uint32_t session_id, struct agm_event_cb_params *event_params,
                                void *client_data)
 {
+    AGM_LOGI("%s: amp_event_cb has been called");
     struct mixer_plugin *plugin = client_data;
     struct amp_priv *amp_priv;
     struct ctl_event event;
@@ -446,6 +456,7 @@ done:
 static void amp_copy_be_names_from_aif_list(struct aif_info *aif_list,
                 size_t aif_cnt, struct amp_dev_info *adi, enum direction dir)
 {
+    AGM_LOGI("%s: amp_copy_be_names_from_aif_list has been called");
     struct aif_info *aif_info;
     int i, be_idx = 0;
 
@@ -472,6 +483,7 @@ static void amp_copy_be_names_from_aif_list(struct aif_info *aif_list,
 static void amp_copy_group_be_names_from_aif_list(struct aif_info *aif_list,
                 size_t grp_cnt, struct amp_be_group_info *grp_info)
 {
+    AGM_LOGI("%s: amp_copy_group_be_names_from_aif_list has been called");
     struct aif_info *aif_info;
     int i, grp_idx = 0;
 
@@ -486,6 +498,7 @@ static void amp_copy_group_be_names_from_aif_list(struct aif_info *aif_list,
 
 static int amp_get_be_info(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_get_be_info has been called");
     struct amp_dev_info *rx_adi = &amp_priv->rx_be_devs;
     struct amp_dev_info *tx_adi = &amp_priv->tx_be_devs;
     struct aif_info *aif_list, *aif_info;
@@ -543,6 +556,7 @@ err_backends_get:
 
 static int amp_get_group_be_info(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_get_group_be_info has been called");
     struct amp_be_group_info *grp_info = &amp_priv->group_be_devs;
     struct aif_info *aif_list = NULL;
     size_t group_be_count = 0;
@@ -586,6 +600,7 @@ err_backends_get:
 static int amp_create_pcm_info_from_card(struct amp_dev_info *adi,
             const char *dir, int num_pcms, void **pcm_node_list)
 {
+    AGM_LOGI("%s: amp_create_pcm_info_from_card has been called");
     int ret, i, val = 0, idx = 0;
 
     adi->names[idx] =  "ZERO";
@@ -623,6 +638,7 @@ static int amp_create_pcm_info_from_card(struct amp_dev_info *adi,
 
 static int amp_get_pcm_info(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_get_pcm_info has been called");
     struct amp_dev_info *rx_adi = &amp_priv->rx_pcm_devs;
     struct amp_dev_info *tx_adi = &amp_priv->tx_pcm_devs;
     void **pcm_node_list = NULL;
@@ -736,6 +752,7 @@ done:
 
 static int amp_get_acdb_info(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_get_acdb_info has been called");
     struct amp_dev_info *acdb_adi = &amp_priv->acdb_tunnels;
     void **pcm_node_list = NULL;
     int total_pcms, ret = 0;
@@ -772,6 +789,7 @@ done:
 
 static void amp_register_event_callback(struct mixer_plugin *plugin, int enable)
 {
+    AGM_LOGI("%s: amp_register_event_callback has been called");
     struct amp_priv *amp_priv = plugin->priv;
     struct amp_dev_info *rx_adi = &amp_priv->rx_pcm_devs;
     struct amp_dev_info *tx_adi = &amp_priv->tx_pcm_devs;
@@ -796,6 +814,7 @@ static void amp_register_event_callback(struct mixer_plugin *plugin, int enable)
 
 static int amp_get_be_ctl_count(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_get_be_ctl_count has been called");
     struct amp_dev_info *rx_adi = &amp_priv->rx_be_devs;
     struct amp_dev_info *tx_adi = &amp_priv->tx_be_devs;
     int count, ctl_per_be;
@@ -813,6 +832,7 @@ static int amp_get_be_ctl_count(struct amp_priv *amp_priv)
 
 static int amp_get_group_be_ctl_count(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_get_group_be_ctl_count has been called");
     struct amp_be_group_info *grp_info = &amp_priv->group_be_devs;
     int count = 0, ctl_per_be_group;
 
@@ -825,6 +845,7 @@ static int amp_get_group_be_ctl_count(struct amp_priv *amp_priv)
 
 static int amp_get_pcm_ctl_count(struct amp_priv *amp_priv)
 {
+    AGM_LOGI("%s: amp_get_pcm_ctl_count has been called");
     struct amp_dev_info *rx_adi = &amp_priv->rx_pcm_devs;
     struct amp_dev_info *tx_adi = &amp_priv->tx_pcm_devs;
     int count, ctl_per_pcm;
@@ -850,6 +871,7 @@ static int amp_get_pcm_ctl_count(struct amp_priv *amp_priv)
 static int amp_pcm_get_control_value(struct amp_priv *amp_priv __unused,
                 int pcm_idx, struct amp_dev_info *pcm_adi)
 {
+    AGM_LOGI("%s: amp_pcm_get_control_value has been called");
     int mtd_idx;
 
     /* Find the index for metadata_ctl for this pcm */
@@ -870,6 +892,7 @@ static int amp_pcm_get_control_value(struct amp_priv *amp_priv __unused,
 static int amp_be_media_fmt_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_be_media_fmt_get has been called");
     //TODO: AGM should support get function.
     AGM_LOGV("%s: enter\n", __func__);
     return 0;
@@ -878,6 +901,7 @@ static int amp_be_media_fmt_get(struct mixer_plugin *plugin __unused,
 static int amp_be_media_fmt_put(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_be_media_fmt_put has been called");
     uint32_t audio_intf_id = ctl->private_value;
     struct agm_media_config media_fmt;
     int ret = 0;
@@ -902,6 +926,7 @@ static int amp_be_media_fmt_put(struct mixer_plugin *plugin,
 static int amp_group_be_media_fmt_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_group_be_media_fmt_get has been called");
     AGM_LOGV("%s: enter\n", __func__);
     return 0;
 }
@@ -909,6 +934,7 @@ static int amp_group_be_media_fmt_get(struct mixer_plugin *plugin __unused,
 static int amp_group_be_media_fmt_put(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_group_be_media_fmt_put has been called");
     struct amp_priv *amp_priv = plugin->priv;
     uint32_t audio_intf_id = ctl->private_value;
     struct agm_group_media_config media_fmt;
@@ -936,6 +962,7 @@ static int amp_group_be_media_fmt_put(struct mixer_plugin *plugin,
 static int amp_pcm_buf_info_get(struct mixer_plugin *plugin __unused,
     struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_pcm_buf_info_get has been called");
     struct agm_buf_info *buf_info;
     int pcm_idx = ctl->private_value;
     int ret = 0;
@@ -949,12 +976,14 @@ static int amp_pcm_buf_info_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_buf_info_put(struct mixer_plugin *plugin __unused,
     struct snd_control *ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_pcm_buf_info_put has been called");
     return 0;
 }
 
 static int amp_be_set_param_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_tlv *ev __unused)
 {
+    AGM_LOGI("%s: amp_be_set_param_get has been called");
     /* get of set_param not implemented */
     return 0;
 }
@@ -962,6 +991,7 @@ static int amp_be_set_param_get(struct mixer_plugin *plugin __unused,
 static int amp_be_set_param_put(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl, struct snd_ctl_tlv *tlv)
 {
+    AGM_LOGI("%s: amp_be_set_param_put has been called");
     uint32_t audio_intf_id = ctl->private_value;
     void *payload = NULL;
     size_t tlv_size = 0;
@@ -982,6 +1012,7 @@ static int amp_be_set_param_put(struct mixer_plugin *plugin __unused,
 static int amp_be_metadata_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_tlv *tlv __unused)
 {
+    AGM_LOGI("%s: amp_be_metadata_get has been called");
     /* AGM should provide a get */
     AGM_LOGV("%s: enter\n", __func__);
     return 0;
@@ -990,6 +1021,7 @@ static int amp_be_metadata_get(struct mixer_plugin *plugin __unused,
 static int amp_be_metadata_put(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl, struct snd_ctl_tlv *tlv)
 {
+    AGM_LOGI("%s: amp_be_metadata_put has been called");
     uint32_t audio_intf_id = ctl->private_value;
     void *payload = NULL;
     uint32_t tlv_size;
@@ -1024,6 +1056,7 @@ static int amp_be_metadata_put(struct mixer_plugin *plugin __unused,
 static int amp_pcm_aif_connect_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_pcm_aif_connect_get has been called");
     /* TODO: Need AGM support to perform get */
     AGM_LOGV("%s: enter\n", __func__);
     return 0;
@@ -1032,6 +1065,7 @@ static int amp_pcm_aif_connect_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_aif_connect_put(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_pcm_aif_connect_put has been called");
     struct amp_priv *amp_priv = plugin->priv;
     struct amp_dev_info *pcm_adi = ctl->private_data;
     struct amp_dev_info *be_adi;
@@ -1076,6 +1110,7 @@ static int amp_pcm_aif_connect_put(struct mixer_plugin *plugin,
 static int amp_pcm_mtd_control_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_pcm_mtd_control_get has been called");
     struct amp_dev_info *pcm_adi = ctl->private_data;
     int idx    = ctl->private_value;
 
@@ -1089,6 +1124,7 @@ static int amp_pcm_mtd_control_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_mtd_control_put(struct mixer_plugin *plugin __unused,
                struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_pcm_mtd_control_put has been called");
     struct amp_dev_info *pcm_adi = ctl->private_data;
     int idx = ctl->private_value;
     unsigned int val;
@@ -1103,6 +1139,7 @@ static int amp_pcm_mtd_control_put(struct mixer_plugin *plugin __unused,
 static int amp_pcm_event_get(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_tlv *tlv)
 {
+    AGM_LOGI("%s: amp_pcm_event_get has been called");
     struct amp_priv *amp_priv = plugin->priv;
     struct listnode *eparams_node, *temp;
     struct event_params_node *event_node;
@@ -1150,6 +1187,7 @@ done:
 static int amp_pcm_event_put(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl, struct snd_ctl_tlv *tlv)
 {
+    AGM_LOGI("%s: amp_pcm_event_put has been called");
     struct agm_event_reg_cfg *evt_reg_cfg;
     int session_id = ctl->private_value;
     uint32_t tlv_size;
@@ -1182,6 +1220,7 @@ static int amp_pcm_event_put(struct mixer_plugin *plugin __unused,
 static int amp_pcm_metadata_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *Ctl __unused, struct snd_ctl_tlv *tlv __unused)
 {
+    AGM_LOGI("%s: amp_pcm_metadata_get has been called");
     /* TODO: AGM needs to provide this in a API */
     AGM_LOGV("%s: enter\n", __func__);
     return 0;
@@ -1190,6 +1229,7 @@ static int amp_pcm_metadata_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_metadata_put(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_tlv *tlv)
 {
+    AGM_LOGI("%s: amp_pcm_metadata_put has been called");
     struct amp_dev_info *pcm_adi = ctl->private_data;
     struct amp_dev_info *be_adi;
     int pcm_idx = ctl->private_value;
@@ -1241,6 +1281,7 @@ static int amp_pcm_metadata_put(struct mixer_plugin *plugin,
 static int amp_pcm_buf_tstamp_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_pcm_buf_tstamp_get has been called");
     int pcm_idx = ctl->private_value;
     int ret = 0;
     uint64_t *timestamp = NULL;
@@ -1253,12 +1294,14 @@ static int amp_pcm_buf_tstamp_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_buf_tstamp_put(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_pcm_buf_tstamp_put has been called");
     return 0;
 }
 
 static int amp_pcm_calibration_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *Ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_calibration_get has been called");
     /* TODO: AGM needs to provide this in a API */
     AGM_LOGV("%s: enter\n", __func__);
     return 0;
@@ -1267,6 +1310,7 @@ static int amp_pcm_calibration_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_calibration_put(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_calibration_put has been called");
     struct amp_dev_info *pcm_adi = ctl->private_data;
     struct amp_dev_info *be_adi;
     struct agm_cal_config *cal_config;
@@ -1298,6 +1342,7 @@ static int amp_pcm_calibration_put(struct mixer_plugin *plugin,
 static int amp_pcm_set_acdb_tunnel_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_tlv *ev __unused)
 {
+    AGM_LOGI("%s: amp_pcm_set_acdb_tunnel_get has been called");
     /* get of set_param not implemented */
     return 0;
 }
@@ -1305,6 +1350,7 @@ static int amp_pcm_set_acdb_tunnel_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_set_acdb_tunnel_put(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_tlv *tlv)
 {
+    AGM_LOGI("%s: amp_pcm_set_acdb_tunnel_put has been called");
     void *payload;
     int ret = 0;
     size_t tlv_size;
@@ -1319,6 +1365,7 @@ static int amp_pcm_set_acdb_tunnel_put(struct mixer_plugin *plugin,
 static int amp_pcm_set_param_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_tlv *ev __unused)
 {
+    AGM_LOGI("%s: amp_pcm_set_param_get has been called");
     /* get of set_param not implemented */
     return 0;
 }
@@ -1326,6 +1373,7 @@ static int amp_pcm_set_param_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_set_param_put(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_tlv *tlv)
 {
+    AGM_LOGI("%s: amp_pcm_set_param_put has been called");
     struct amp_dev_info *pcm_adi = ctl->private_data;
     struct amp_dev_info *be_adi;
     void *payload;
@@ -1381,6 +1429,7 @@ static int amp_pcm_set_param_put(struct mixer_plugin *plugin,
 static int amp_pcm_get_param_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl, struct snd_ctl_tlv *tlv)
 {
+    AGM_LOGI("%s: amp_pcm_get_param_get has been called");
     struct amp_dev_info *pcm_adi = ctl->private_data;
     void *payload;
     int pcm_idx;
@@ -1423,6 +1472,7 @@ static int amp_pcm_get_param_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_get_param_put(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl, struct snd_ctl_tlv *tlv)
 {
+    AGM_LOGI("%s: amp_pcm_get_param_put has been called");
     struct amp_dev_info *pcm_adi = ctl->private_data;
     int idx = ctl->private_value;
     void *payload;
@@ -1450,6 +1500,7 @@ static int amp_pcm_get_param_put(struct mixer_plugin *plugin __unused,
 static int amp_pcm_tag_info_get(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_tlv *tlv)
 {
+    AGM_LOGI("%s: amp_pcm_tag_info_get has been called");
     struct amp_dev_info *pcm_adi = ctl->private_data;
     struct amp_dev_info *be_adi;
     void *payload;
@@ -1485,6 +1536,7 @@ static int amp_pcm_tag_info_get(struct mixer_plugin *plugin,
 static int amp_pcm_tag_info_put(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_tlv *tlv __unused)
 {
+    AGM_LOGI("%s: amp_pcm_tag_info_put has been called");
     /* Set for getTaggedInfo mixer control is not supported */
     return 0;
 }
@@ -1492,6 +1544,7 @@ static int amp_pcm_tag_info_put(struct mixer_plugin *plugin __unused,
 static int amp_pcm_loopback_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *Ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_pcm_loopback_get has been called");
     /* TODO: AGM API not available */
     AGM_LOGV("%s: enter\n", __func__);
     return 0;
@@ -1500,6 +1553,7 @@ static int amp_pcm_loopback_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_loopback_put(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_pcm_loopback_put has been called");
     struct amp_priv *amp_priv = plugin->priv;
     struct amp_dev_info *pcm_rx_adi;
     int rx_pcm_idx, tx_pcm_idx = ctl->private_value;
@@ -1536,6 +1590,7 @@ static int amp_pcm_loopback_put(struct mixer_plugin *plugin,
 static int amp_pcm_echoref_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *Ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_pcm_echoref_get has been called");
     /* TODO: AGM API not available */
     AGM_LOGV("%s: enter\n", __func__);
     return 0;
@@ -1544,6 +1599,7 @@ static int amp_pcm_echoref_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_echoref_put(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_pcm_echoref_put has been called");
     struct amp_priv *amp_priv = plugin->priv;
     struct amp_dev_info *be_adi;
     int be_idx, pcm_idx = ctl->private_value;
@@ -1577,6 +1633,7 @@ static int amp_pcm_echoref_put(struct mixer_plugin *plugin,
 static int amp_pcm_sidetone_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *Ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_pcm_sidetone_get has been called");
     /* TODO: AGM API not available */
     AGM_LOGV("%s: enter\n", __func__);
     return 0;
@@ -1585,6 +1642,7 @@ static int amp_pcm_sidetone_get(struct mixer_plugin *plugin __unused,
 static int amp_pcm_sidetone_put(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_pcm_sidetone_put has been called");
     //TODO
     return 0;
 }
@@ -1592,12 +1650,14 @@ static int amp_pcm_sidetone_put(struct mixer_plugin *plugin __unused,
 static int amp_pcm_write_datapath_params_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_pcm_write_datapath_params_get has been called");
     return 0;
 }
 
 static int amp_pcm_write_datapath_params_put(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_pcm_write_datapath_params_put has been called");
     struct agm_buff *buffer;
     int pcm_idx = ctl->private_value;
     int ret;
@@ -1616,12 +1676,14 @@ static int amp_pcm_write_datapath_params_put(struct mixer_plugin *plugin,
 static int amp_pcm_flush_get(struct mixer_plugin *plugin __unused,
                 struct snd_control *ctl __unused, struct snd_ctl_elem_value *ev __unused)
 {
+    AGM_LOGI("%s: amp_pcm_flush_get has been called");
     return 0;
 }
 
 static int amp_pcm_flush_put(struct mixer_plugin *plugin,
                 struct snd_control *ctl, struct snd_ctl_elem_value *ev)
 {
+    AGM_LOGI("%s: amp_pcm_flush_put has been called");
     uint32_t pcm_idx = ctl->private_value;
     bool flush = !!(ev->value.integer.value[0]);
     int ret = 0;
@@ -1677,6 +1739,7 @@ static void amp_create_connect_ctl(struct amp_priv *amp_priv,
             char *pname, int ctl_idx, struct snd_value_enum *e,
             int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_connect_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1690,6 +1753,7 @@ static void amp_create_disconnect_ctl(struct amp_priv *amp_priv,
             char *pname, int ctl_idx, struct snd_value_enum *e,
             int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_disconnect_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1703,6 +1767,7 @@ static void amp_create_mtd_control_ctl(struct amp_priv *amp_priv,
                 char *pname, int ctl_idx, struct snd_value_enum *e,
                 int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_mtd_control_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1716,6 +1781,7 @@ static void amp_create_mtd_control_ctl(struct amp_priv *amp_priv,
 static void amp_create_pcm_event_ctl(struct amp_priv *amp_priv,
                 char *name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_event_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1729,6 +1795,7 @@ static void amp_create_pcm_event_ctl(struct amp_priv *amp_priv,
 static void amp_create_pcm_metadata_ctl(struct amp_priv *amp_priv,
                 char *name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_metadata_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1743,6 +1810,7 @@ static void amp_create_pcm_set_param_ctl(struct amp_priv *amp_priv,
                 char *name, int ctl_idx, int pval, void *pdata,
                 bool istagged_setparam, bool is_acdb)
 {
+    AGM_LOGI("%s: amp_create_pcm_param_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1770,6 +1838,7 @@ static void amp_create_pcm_set_param_ctl(struct amp_priv *amp_priv,
 static void amp_create_pcm_get_param_ctl(struct amp_priv *amp_priv,
                 char *name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_get_param_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1783,6 +1852,7 @@ static void amp_create_pcm_get_param_ctl(struct amp_priv *amp_priv,
 static void amp_create_pcm_get_tag_info_ctl(struct amp_priv *amp_priv,
                 char *name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_get_tag_info_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1798,6 +1868,7 @@ static void amp_create_pcm_loopback_ctl(struct amp_priv *amp_priv,
             char *pname, int ctl_idx, struct snd_value_enum *e,
             int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_loopback_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1811,6 +1882,7 @@ static void amp_create_pcm_echoref_ctl(struct amp_priv *amp_priv,
             char *pname, int ctl_idx, struct snd_value_enum *e,
             int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_echoref_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1825,6 +1897,7 @@ static void amp_create_pcm_sidetone_ctl(struct amp_priv *amp_priv,
             char *pname, int ctl_idx, struct snd_value_enum *e,
             int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_sidetone_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1838,6 +1911,7 @@ static void amp_create_pcm_sidetone_ctl(struct amp_priv *amp_priv,
 static void amp_create_pcm_calibration_ctl(struct amp_priv *amp_priv,
                 char *name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_calibration_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1852,6 +1926,7 @@ static void amp_create_pcm_calibration_ctl(struct amp_priv *amp_priv,
 static void amp_create_pcm_buf_tstamp_ctl(struct amp_priv *amp_priv,
                 char *name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_buf_tstamp_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1866,6 +1941,7 @@ static void amp_create_pcm_buf_tstamp_ctl(struct amp_priv *amp_priv,
 static void amp_create_pcm_bufinfo_ctl(struct amp_priv *amp_priv,
     char *name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_bufinfo_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1880,6 +1956,7 @@ static void amp_create_pcm_bufinfo_ctl(struct amp_priv *amp_priv,
 static void amp_create_pcm_write_with_metadata_ctl(struct amp_priv *amp_priv,
     char *name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_write_with_metadata_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1894,6 +1971,7 @@ static void amp_create_pcm_write_with_metadata_ctl(struct amp_priv *amp_priv,
 static void amp_create_pcm_flush_ctl(struct amp_priv *amp_priv,
     char *name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_pcm_flush_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1909,6 +1987,7 @@ static void amp_create_pcm_flush_ctl(struct amp_priv *amp_priv,
 static void amp_create_acdb_tunnel_set_ctl(struct amp_priv *amp_priv,
                 int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_acdb_tunnel_set_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
 
     INIT_SND_CONTROL_TLV_BYTES(ctl,
@@ -1920,6 +1999,7 @@ static void amp_create_acdb_tunnel_set_ctl(struct amp_priv *amp_priv,
 static void amp_create_metadata_ctl(struct amp_priv *amp_priv,
                 char *be_name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_metadata_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1933,6 +2013,7 @@ static void amp_create_metadata_ctl(struct amp_priv *amp_priv,
 static void amp_create_media_fmt_ctl(struct amp_priv *amp_priv,
                 char *be_name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_media_fmt_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1945,6 +2026,7 @@ static void amp_create_media_fmt_ctl(struct amp_priv *amp_priv,
 static void amp_create_be_set_param_ctl(struct amp_priv *amp_priv,
                 char *be_name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_be_set_param_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -1956,6 +2038,7 @@ static void amp_create_be_set_param_ctl(struct amp_priv *amp_priv,
 
 static int amp_form_be_ctls(struct amp_priv *amp_priv, int ctl_idx, int ctl_cnt __unused)
 {
+    AGM_LOGI("%s: amp_form_be_ctls has been called");
     struct amp_dev_info *rx_adi = &amp_priv->rx_be_devs;
     struct amp_dev_info *tx_adi = &amp_priv->tx_be_devs;
     int i;
@@ -1990,6 +2073,7 @@ static int amp_form_be_ctls(struct amp_priv *amp_priv, int ctl_idx, int ctl_cnt 
 static void amp_create_group_be_media_fmt_ctl(struct amp_priv *amp_priv,
                 char *group_be_name, int ctl_idx, int pval, void *pdata)
 {
+    AGM_LOGI("%s: amp_create_group_be_media_fmt_ctl has been called");
     struct snd_control *ctl = AMP_PRIV_GET_CTL_PTR(amp_priv, ctl_idx);
     char *ctl_name = AMP_PRIV_GET_CTL_NAME_PTR(amp_priv, ctl_idx);
 
@@ -2001,6 +2085,7 @@ static void amp_create_group_be_media_fmt_ctl(struct amp_priv *amp_priv,
 
 static int amp_form_group_be_ctls(struct amp_priv *amp_priv, int ctl_idx, int ctl_cnt __unused)
 {
+    AGM_LOGI("%s: amp_form_group_be_ctls has been called");
     struct amp_be_group_info *grp_info = &amp_priv->group_be_devs;
     int i;
 
@@ -2015,6 +2100,7 @@ static int amp_form_group_be_ctls(struct amp_priv *amp_priv, int ctl_idx, int ct
 static int amp_form_common_pcm_ctls(struct amp_priv *amp_priv, int *ctl_idx,
                 struct amp_dev_info *pcm_adi, struct amp_dev_info *be_adi)
 {
+    AGM_LOGI("%s: amp_form_common_pcm_ctls has been called");
     int i;
 
     pcm_adi->pcm_mtd_ctl = calloc(pcm_adi->count, sizeof(int));
@@ -2061,6 +2147,7 @@ static int amp_form_common_pcm_ctls(struct amp_priv *amp_priv, int *ctl_idx,
 
 static int amp_form_tx_pcm_ctls(struct amp_priv *amp_priv, int *ctl_idx)
 {
+    AGM_LOGI("%s: amp_form_tx_pcm_ctls has been called");
     struct amp_dev_info *rx_adi = &amp_priv->rx_pcm_devs;
     struct amp_dev_info *tx_adi = &amp_priv->tx_pcm_devs;
     struct amp_dev_info *be_rx_adi = &amp_priv->rx_be_devs;
@@ -2085,6 +2172,7 @@ static int amp_form_tx_pcm_ctls(struct amp_priv *amp_priv, int *ctl_idx)
 
 static int amp_form_rx_pcm_ctls(struct amp_priv *amp_priv, int *ctl_idx)
 {
+    AGM_LOGI("%s: amp_form_tx_pcm_ctls has been called");
     struct amp_dev_info *rx_adi = &amp_priv->rx_pcm_devs;
     struct amp_dev_info *be_tx_adi = &amp_priv->tx_be_devs;
     int i;
@@ -2107,6 +2195,7 @@ static int amp_form_rx_pcm_ctls(struct amp_priv *amp_priv, int *ctl_idx)
 
 static int amp_form_pcm_ctls(struct amp_priv *amp_priv, int ctl_idx, int ctl_cnt __unused)
 {
+    AGM_LOGI("%s: amp_form_pcm_ctls has been called");
     struct amp_dev_info *rx_adi = &amp_priv->rx_pcm_devs;
     struct amp_dev_info *tx_adi = &amp_priv->tx_pcm_devs;
     struct amp_dev_info *be_rx_adi = &amp_priv->rx_be_devs;
@@ -2138,6 +2227,7 @@ static int amp_form_pcm_ctls(struct amp_priv *amp_priv, int ctl_idx, int ctl_cnt
 
 static int amp_form_acdb_ctls(struct amp_priv *amp_priv, int ctl_idx)
 {
+    AGM_LOGI("%s: amp_form_acdb_ctls has been called");
     struct amp_dev_info *acdb_adi = &amp_priv->acdb_tunnels;
 
     amp_create_acdb_tunnel_set_ctl(amp_priv, ctl_idx, acdb_adi->idx_arr[0],
@@ -2149,6 +2239,7 @@ static int amp_form_acdb_ctls(struct amp_priv *amp_priv, int ctl_idx)
 static ssize_t amp_read_event(struct mixer_plugin *plugin,
                               struct ctl_event *ev, size_t size)
 {
+    AGM_LOGI("%s: amp_read_event has been called");
     struct amp_priv *amp_priv = plugin->priv;
     ssize_t result = 0;
 
@@ -2180,6 +2271,7 @@ static ssize_t amp_read_event(struct mixer_plugin *plugin,
 static int amp_subscribe_events(struct mixer_plugin *plugin,
                                   event_callback event_cb)
 {
+    AGM_LOGI("%s: amp_subscribe_events has been called");
     struct amp_priv *amp_priv = plugin->priv;
     struct listnode *eparams_node, *ev_node, *temp, *temp2;
     struct event_params_node *event_node;
@@ -2208,6 +2300,7 @@ static int amp_subscribe_events(struct mixer_plugin *plugin,
 
 static void amp_close(struct mixer_plugin **plugin)
 {
+    AGM_LOGI("%s: amp_subscribe_events has been called");
     struct mixer_plugin *amp = *plugin;
     struct amp_priv *amp_priv = amp->priv;
 
@@ -2235,6 +2328,7 @@ struct mixer_plugin_ops amp_ops = {
 
 MIXER_PLUGIN_OPEN_FN(agm_mixer_plugin)
 {
+    AGM_LOGI("%s: MIXER_PLUGIN_OPEN_FN has been called");
     struct mixer_plugin *amp;
     struct amp_priv *amp_priv;
     struct pcm_adi;
