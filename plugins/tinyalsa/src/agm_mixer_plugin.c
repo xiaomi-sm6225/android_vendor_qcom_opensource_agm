@@ -2353,6 +2353,7 @@ MIXER_PLUGIN_OPEN_FN(agm_mixer_plugin)
 
     amp_priv->card = card;
     amp_priv->card_node = snd_card_def_get_card(amp_priv->card);
+    AGM_LOGI("%s: I found card node in %u\n", __func__, amp_priv->card_node);
     if (!amp_priv->card_node) {
         AGM_LOGE("%s: card node not found for card %d\n",
                __func__, amp_priv->card);
