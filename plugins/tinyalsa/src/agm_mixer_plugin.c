@@ -230,7 +230,7 @@ struct mixer_plugin_event_data {
 
 static enum agm_media_format alsa_to_agm_fmt(int fmt)
 {
-    AGM_LOGI("%s: Function agm_media_format/alsa_to_agm_fmt has been called");
+    AGM_LOGE("%s: Function agm_media_format/alsa_to_agm_fmt has been called");
     enum agm_media_format agm_pcm_fmt = AGM_FORMAT_INVALID;
 
     switch (fmt) {
@@ -257,7 +257,7 @@ static enum agm_media_format alsa_to_agm_fmt(int fmt)
 static struct amp_dev_info *amp_get_be_adi(struct amp_priv *amp_priv,
                 enum direction dir)
 {
-    AGM_LOGI("%s: Function agm_dev_info has been called");
+    AGM_LOGE("%s: Function agm_dev_info has been called");
     if (dir == RX)
         return &amp_priv->rx_be_devs;
     else if (dir == TX)
@@ -2343,6 +2343,7 @@ MIXER_PLUGIN_OPEN_FN(agm_mixer_plugin)
         AGM_LOGE("agm mixer plugin alloc failed\n");
         return -ENOMEM;
     }
+    AGM_LOGI("%s: agm mixer plugin alloc check passed");
 
     amp_priv = calloc(1, sizeof(*amp_priv));
     if (!amp_priv) {
@@ -2350,10 +2351,11 @@ MIXER_PLUGIN_OPEN_FN(agm_mixer_plugin)
         ret = -ENOMEM;
         goto err_priv_alloc;
     }
+    AGM_LOGE("%s: agm priv data alloc check passed");
 
     amp_priv->card = card;
     amp_priv->card_node = snd_card_def_get_card(amp_priv->card);
-    AGM_LOGI("%s: I found card node in %u\n", __func__, amp_priv->card_node);
+    AGM_LOGE("%s: I found card node in %u\n", __func__, amp_priv->card_node);
     if (!amp_priv->card_node) {
         AGM_LOGE("%s: card node not found for card %d\n",
                __func__, amp_priv->card);
@@ -2435,7 +2437,7 @@ MIXER_PLUGIN_OPEN_FN(agm_mixer_plugin)
     list_init(&amp_priv->events_list);
     pthread_mutex_init(&amp_priv->lock, (const pthread_mutexattr_t *) NULL);
     AGM_LOGV("%s: total_ctl_cnt = %d\n", __func__, total_ctl_cnt);
-    AGM_LOGI("%s: I did all work, bye");
+    AGM_LOGE("%s: I did all work, bye"); // it doesn't init
     return 0;
 
 err_ctls_alloc:
