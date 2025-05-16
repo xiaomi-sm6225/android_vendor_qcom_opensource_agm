@@ -2434,7 +2434,7 @@ MIXER_PLUGIN_OPEN_FN(agm_mixer_plugin)
     list_init(&amp_priv->events_list);
     pthread_mutex_init(&amp_priv->lock, (const pthread_mutexattr_t *) NULL);
     AGM_LOGV("%s: total_ctl_cnt = %d\n", __func__, total_ctl_cnt);
-
+    AGM_LOGI("%s: I did all work, bye");
     return 0;
 
 err_ctls_alloc:
