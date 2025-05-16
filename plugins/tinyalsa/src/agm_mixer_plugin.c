@@ -2249,7 +2249,7 @@ MIXER_PLUGIN_OPEN_FN(agm_mixer_plugin)
         AGM_LOGE("agm mixer plugin alloc failed\n");
         return -ENOMEM;
     }
-    AGM_LOGI("%s: agm mixer plugin alloc check passed");
+    AGM_LOGI("agm mixer plugin alloc check passed");
 
     amp_priv = calloc(1, sizeof(*amp_priv));
     if (!amp_priv) {
@@ -2257,11 +2257,11 @@ MIXER_PLUGIN_OPEN_FN(agm_mixer_plugin)
         ret = -ENOMEM;
         goto err_priv_alloc;
     }
-    AGM_LOGE("%s: agm priv data alloc check passed");
+    AGM_LOGE("agm priv data alloc check passed");
 
     amp_priv->card = card;
     amp_priv->card_node = snd_card_def_get_card(amp_priv->card);
-    AGM_LOGE("%s: I found card node in %u\n", __func__, amp_priv->card_node);
+    AGM_LOGE("%s: I found card node in %p\n", __func__, amp_priv->card_node);
     if (!amp_priv->card_node) {
         AGM_LOGE("%s: card node not found for card %d\n",
                __func__, amp_priv->card);
@@ -2273,23 +2273,33 @@ MIXER_PLUGIN_OPEN_FN(agm_mixer_plugin)
     amp_priv->tx_be_devs.dir = TX;
     amp_priv->rx_pcm_devs.dir = RX;
     amp_priv->tx_pcm_devs.dir = TX;
+    AGM_LOGE("I am alive after setting RX/TX");
 
     ret = amp_get_be_info(amp_priv);
     if (ret)
         goto err_get_be_info;
 
+    AGM_LOGE("I am okay on amp_get_be_info");
+
     ret = amp_get_group_be_info(amp_priv);
     if (ret)
         goto err_get_be_group_info;
+
+    AGM_LOGE("I am okay on amp-get_group_be_info");
 
     ret = amp_get_pcm_info(amp_priv);
     if (ret)
         goto err_get_pcm_info;
 
+    AGM_LOGE("I am okay on amp_get_pcm_info");
+
     ret = amp_get_acdb_info(amp_priv);
     if (ret)
         goto err_get_acdb_info;
 
+    AGM_LOGE("I am okay on amp_get_acdb_info");
+
+    AGM_LOGE("I am counting controls...");
     /* Get total count of controls to be registered */
     be_ctl_cnt = amp_get_be_ctl_count(amp_priv);
     total_ctl_cnt += be_ctl_cnt;
@@ -2313,37 +2323,47 @@ MIXER_PLUGIN_OPEN_FN(agm_mixer_plugin)
     if (ret)
         goto err_ctls_alloc;
 
+    AGM_LOGE("I am okay on amp_form_be_ctls");
+
     if (be_grp_ctl_cnt) {
         ret = amp_form_group_be_ctls(amp_priv, be_ctl_cnt, be_grp_ctl_cnt);
         if (ret)
             goto err_ctls_alloc;
     }
 
+    AGM_LOGE("I am okay on be_grp_ctl_cnt");
+
     ret = amp_form_pcm_ctls(amp_priv, be_ctl_cnt + be_grp_ctl_cnt, pcm_ctl_cnt);
     if (ret)
         goto err_ctls_alloc;
 
+    AGM_LOGE("I am okay on amp_form_pcm_ctls");
+
     ret = amp_form_acdb_ctls(amp_priv, be_ctl_cnt + be_grp_ctl_cnt + pcm_ctl_cnt);
     if (ret)
         goto err_ctls_alloc;
+    AGM_LOGE("I am okay on amp_form_acdb_ctls");
 
     /* Register the controls */
+    AGM_LOGE("I am registering controls...");
     if (total_ctl_cnt > 0) {
         amp_priv->ctl_count = total_ctl_cnt;
         amp->controls = amp_priv->ctls;
         amp->num_controls = amp_priv->ctl_count;
     }
+    AGM_LOGE("I am alive after controls register");
 
     amp->ops = &amp_ops;
     amp->priv = amp_priv;
     *plugin = amp;
 
     amp_register_event_callback(amp, 1);
+    AGM_LOGE("I am okay on amp_register_event_callback");
     list_init(&amp_priv->events_paramlist);
     list_init(&amp_priv->events_list);
     pthread_mutex_init(&amp_priv->lock, (const pthread_mutexattr_t *) NULL);
     AGM_LOGV("%s: total_ctl_cnt = %d\n", __func__, total_ctl_cnt);
-    AGM_LOGE("%s: I did all work, bye"); // it doesn't init
+    AGM_LOGE("I did all work, bye"); // it doesn't init
     return 0;
 
 err_ctls_alloc:
